@@ -51,3 +51,57 @@ score += 10; // makes sense with let
 ---
 
 ----------------- Day 2 ---------------------------
+
+# What is an execution context?
+
+Everytime Javascript runs code, whether the whole file or a single function call, it creates a box called an Execution Context.
+This box contains everything JS needs to run that piece of code: the variables, the value of this, and a reference to the outer environment.
+
+Real-world analogy first
+
+Imagine a chef (JS engine) working in a kitchen. Every dish order creates a new workspace (execution context) with its own cutting board, ingredients list, and tools. The chef works on one workspace at a time. When the dish is done, the workspace is cleared. That's exactly how JS handles function calls.
+
+Two components inside every execution context
+
+Variable Environment
+— all variable declarations
+— function declarations
+— arguments object
+
+Scope Chain
+— reference to outer EC
+— enables variable lookup
+— set at creation time
+
+Two types of execution context
+// 1. GLOBAL EXECUTION CONTEXT (GEC)
+// — created automatically when JS starts running your file
+// — there is exactly ONE global EC per program
+// — creates global object (window in browser, global in Node)
+// — sets this = window (browser) or global (Node)
+// — runs through your entire file
+
+// 2. FUNCTION EXECUTION CONTEXT (FEC)
+// — created EVERY TIME a function is CALLED (not defined)
+// — each call = fresh execution context
+// — destroyed after the function returns
+// — has its own variable environment
+
+function greet(name){
+A new FEC is created right here when greet() is called
+It contains name = "Alfaz", this = ..., outer = GEC
+
+const message = `hello ${name}`
+return message;
+FEC is destroyed here - message is gone from memory.
+}
+
+greet("Rahim")
+greet("Karim")
+
+The call stack - How JS tracks what's running?
+= The call stack is a data structure that tracks which execution context is currently active. It works exactly like a stack of plates,
+last in, First out (LIFO). Js can onyl run ONE execution context at a time whichever is on top of the stack.
+
+Lexical Scope
+Lexical means "at the time of writing." Lexical scope means: a variable's scope is determined by WHERE you physically write the function in your code — not where you call it from. This is one of the most fundamental concepts in JavaScript, and it's the direct parent of closures.
