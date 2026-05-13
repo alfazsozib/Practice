@@ -63,3 +63,64 @@ const timer = {
         }, 100);
     }
 };
+
+
+// store a function in a variable 
+
+const hell0 = function(){console.log("Stored Hello")}
+hell0()
+
+// Pass a function as an argument ()
+function runTwice(fn){
+    fn();
+    fn()
+}
+runTwice(()=>{console.log('Running!')})
+
+
+// store function in objects 
+const mathUtils = {
+    add: (a,b) => a+b,
+}
+console.log(mathUtils.add(3,4));
+
+
+// store function in arrays
+const pipeline = [
+    x => x*2,
+    x => x*3
+]
+
+
+
+
+// Higher order function. Functions that work with functions 
+// A higher order function either:
+// a) takes a function as an argument, OR
+// b) Returns a function, Or both
+
+// Example a — takes a function:
+function applyOperation(num, operation) {
+  return operation(num);
+}
+console.log(applyOperation(5, n => n * n));  // 25
+console.log(applyOperation(5, n => n + 10)); // 15
+
+
+
+// Example b — returns a function:
+function createValidator(min, max) {
+  return function(value) {       // returned function
+    return value >= min && value <= max;
+  };
+}
+const isValidAge   = createValidator(18, 65);
+const isValidScore = createValidator(0, 100);
+
+console.log(isValidAge(25));   // true
+console.log(isValidAge(15));   // false
+console.log(isValidScore(85)); // true
+
+// Real-world: Array methods like map, filter, reduce
+// are ALL higher-order functions — they take a function as argument
+[1,2,3].map(n => n * 2); // map is HOF, n => n*2 is callback
