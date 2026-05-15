@@ -124,3 +124,171 @@ console.log(isValidScore(85)); // true
 // Real-world: Array methods like map, filter, reduce
 // are ALL higher-order functions — they take a function as argument
 [1,2,3].map(n => n * 2); // map is HOF, n => n*2 is callback
+
+
+
+// ------------------ IIFE (Immidiately Invoked Function Expression) 
+
+// there are 2 forms of iife 
+// Form-01 ------------ 
+(function(){
+    const secret = "I am Alfaz's private key";
+    console.log(secret);
+})();  
+
+// () -> at the end calls the function right away 
+
+// Form - 02 ----------
+(()=>{
+    const secret = "I am the still private key";
+    console.log(secret);
+})();
+
+
+// Breakdown:
+// (function() { ... })   → function EXPRESSION (not declaration)
+//                    ()  → immediately calls the expression
+
+// Without IIFE — pollutes global scope
+var counter = 0;       // global — anyone can change this
+var userName = "Rahim"; // global — collision risk in large apps
+
+// With IIFE — everything stays private
+(function() {
+  var counter = 0;        // private to this IIFE
+  var userName = "Rahim"; // private to this IIFE
+
+  counter++;
+  console.log(counter);   // 1
+})();
+
+console.log(counter);     // ReferenceError — doesn't exist outside!
+console.log(typeof counter); // "undefined"
+
+
+
+// IIFE with parameter and return value 
+
+((myparam)=>{
+    console.log(myparam);
+})(window); // Passing window as argument 
+
+// Capture return value module like pattern 
+const counter = (()=>{
+    let count = 0;
+
+    return(
+        increment(),
+        decrement()
+    )
+})
+
+counter.increment();
+counter.increment();
+counter.increment();
+console.log(counter.getCount()); // 3
+console.log(counter.count);      // undefined — truly private!
+
+
+
+// This is usefull in nodejs where top level await 
+
+(async()=>{
+    const data = await fetch("https://api.example.com/users");
+    const users = await data.json();
+    console.log(users)
+})();
+
+
+// One time initialization code 
+const CONFIG = (()=>{
+    const env = ProcessingInstruction.env.NODE_ENV;
+
+    return {
+        isDev: env == "development",
+        isProd: env == "production",
+        apiUrl: env == "production"
+        ? "httpps:":"https://"
+    };
+})();
+
+
+// In modern Node.js and React projects, you use ES6 modules (import/export) instead of IIFEs for code isolation. But the async IIFE pattern is still used frequently. You will see IIFEs in interviews and legacy codebases regularly.
+
+
+
+
+
+
+
+// -------------------- Pure / Impure Function -------------------------- 
+
+
+// Pure function 
+// Concept: what makes a function "pure"?
+// A pure function has exactly two rules: first, given the same inputs, it always returns the same output. Second, it has no side effects — it doesn't change anything outside itself. That's it. Simple rules, enormous consequences.
+
+
+function add(a,b){
+    return a+b;
+}
+add(3,4) // always 5 no matter what no matter when 
+
+
+// Doesn't modify input, creates new value instead 
+
+function addItem(cart, newItem){
+    return [... cart, newItem]; // return new array the old one is untouched
+}
+
+const cart = ["shirt","pant"];
+const newCart = addItem(cart, "hat");
+
+
+// Pure function data without touching otsidde world 
+function userData(user){
+    return {
+        ...user,
+        fullname: `${user.firstName} ${user.lastName}`,
+        initials: `${user.firstName[0] } ${user.lastName[0]} `
+    };
+}
+
+// Impure functions — unpredictable, have side effects
+
+// Impure depends on external state (different output for same input)
+
+let taxRat = 0.15;
+
+function calculatetax(amount){
+    return amount * taxRat; // depends on external variable .
+}
+
+taxRate = 0.20
+calculatetax(1000);  // now return 200 instead of 150 - but the input is same;
+
+let total = 0;
+let tt = (amount) =>{
+    total+=amount;    // modifies externam variable - side effect 
+    return total;
+}
+
+
+
+// Impure - mutches the input argument 
+function addItemToCart(cart, item){
+    cart.push(item);
+    return cart;
+}
+
+mycart = ["shirt"];
+addItemToCart(mycart,"shoes");
+console.log(myCart); // ["shirt", "shoes"] — original was changed!
+
+// IMPURE — other common side effects:
+// - console.log()        → writes to console
+// - fetch() / API calls  → network request
+// - DOM manipulation     → changes the page
+// - Math.random()        → different output each call
+// - new Date()           → different output each call
+// - writing to database  → external state change 
