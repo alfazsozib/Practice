@@ -105,3 +105,60 @@ last in, First out (LIFO). Js can onyl run ONE execution context at a time which
 
 Lexical Scope
 Lexical means "at the time of writing." Lexical scope means: a variable's scope is determined by WHERE you physically write the function in your code — not where you call it from. This is one of the most fundamental concepts in JavaScript, and it's the direct parent of closures.
+
+# functions
+
+// Q1: Declaration vs Expression?
+// Declaration: starts with 'function', fully hoisted, callable before its line.
+// Expression: assigned to variable, follows TDZ rules, not callable before line.
+
+// Q2: How are arrow functions different?
+// 1. No own 'this' — inherits lexically
+// 2. No 'arguments' object — use rest params
+// 3. Cannot be used as constructor with 'new'
+
+// Q3: What is an IIFE and why use it?
+// Function that defines and calls itself immediately.
+// Creates private scope, avoids global pollution,
+// used for async IIFEs and in legacy/bundled code.
+
+// Q4: What is a pure function?
+// (a) Same inputs → always same output
+// (b) No side effects — nothing outside is modified.
+
+// Q5: What is a higher-order function?
+// Takes a function as argument OR returns a function.
+// Examples: map, filter, reduce, setTimeout, addEventListener.
+
+Practice tasks
+// TASK 1 — write the same logic 3 ways:
+// A function that takes a number and returns its square.
+// Write as: declaration, expression, and arrow function.
+
+// TASK 2 — fix this impure function:
+let discount = 10;
+function getPrice(price) {
+return price - discount; // impure!
+}
+// Rewrite as a pure function.
+
+// TASK 3 — build a private counter using IIFE:
+// Returns object with increment(), decrement(), reset(), getValue()
+// Internal count must be completely private.
+
+// TASK 4 — predict the output BEFORE running:
+const obj = {
+name: "Rahim",
+regularFn: function() {
+setTimeout(function() {
+console.log("regular:", this.name);
+}, 100);
+},
+arrowFn: function() {
+setTimeout(() => {
+console.log("arrow:", this.name);
+}, 100);
+}
+};
+obj.regularFn(); // what prints?
+obj.arrowFn(); // what prints?

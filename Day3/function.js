@@ -292,3 +292,52 @@ console.log(myCart); // ["shirt", "shoes"] — original was changed!
 // - Math.random()        → different output each call
 // - new Date()           → different output each call
 // - writing to database  → external state change 
+
+
+// Why this matters in React directly
+
+// React COMPONENTS must be pure functions:
+// Given the same props, they must return the same JSX.
+// React uses this guarantee to optimize re-renders.
+// GOOD React component — pure
+function UserCard({ name, age }) {
+  return (
+    <div>
+      <h2>{name}</h2>
+      <p>Age: {age}</p>
+    </div>
+  );
+}
+// Same props always → same output ✓
+
+// BAD React component — impure
+function UserCard({ name }) {
+  document.title = name; // side effect in render! ✗
+  // React may call this function multiple times during rendering
+  // This causes unexpected document.title changes
+
+  return <h2>{name}</h2>;
+}
+// Side effects in React go in useEffect() — not in the render body
+
+// The practical rule for your code -------------------------------------
+
+// AIM: make as many functions PURE as possible.
+// Put ALL side effects in dedicated, clearly named functions.
+
+// Pure — business logic (easy to test, predict, reuse)
+const calculateDiscount = (price, percent) => price * (1 - percent/100);
+const formatCurrency = amount => `৳${amount.toLocaleString()}`;
+const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+// Impure — side effects isolated and named clearly
+async function saveUserToDatabase(user) { /* DB write */ }
+function logError(error) { console.error(error); }
+async function fetchProducts() { return await api.get("/products"); }
+
+// This separation makes your code:
+// — Easy to unit test (pure functions need no mocks)
+// — Easy to debug (impure functions are the only ones that cause surprises)
+// — Easy to reason about (pure = safe, impure = watch carefully)
+
+
