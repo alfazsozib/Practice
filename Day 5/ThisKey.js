@@ -138,3 +138,20 @@ const person = {name: "Rahim"};
 introduce.apply(person, ["Dhaka", "Developer"]); // same output
 
 
+// call vs apply — একমাত্র পার্থক্য: arguments কীভাবে দেওয়া হয়
+// call:  fn.call(obj,  arg1, arg2)     → individually
+// apply: fn.apply(obj, [arg1, arg2])   → as array
+
+
+// apply-এর classic use case — Math.max with array
+const numbers = [3, 1, 4, 1, 5, 9, 2, 6];
+console.log(Math.max(...numbers)); // modern way spread
+console.log(Math.max.apply(null, numbers)); // old way- apply
+
+// Math.max doesn't need a this, so null is fine 
+// Merge arrays (old way before spread)
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+Array.prototype.push.apply(arr1, arr2);
+
+// bind() — এখনই run করে না, নতুন function return করে
