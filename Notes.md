@@ -292,3 +292,21 @@ const obj = { a: 1 };
 // canDrive, canFly, canFloat — তিনটা function তৈরি করো
 // createAmphibiousVehicle(name) তৈরি করো
 // যেটা canDrive + canFloat combine করবে
+
+######################## array functions
+
+1. map() -> transform each element and create a new array.
+2. filter() -> store element based on the condition and create a new array with same lenght or small length.
+3. reduce() -> return a single value from an array
+4. find() -> find out the first match
+5. findIndex() -> find out the index of the first match
+6. some() -> Match just one value either true or false
+7. every() -> Match every single value either true or false
+8. flat() / flatMap() -> convert nested array to new flat array
+
+
+
+reduce() হলো array methods-এর মধ্যে সবচেয়ে powerful — কিন্তু beginners-এর কাছে সবচেয়ে confusing। Concept টা হলো: array-কে একটাই value-তে "reduce" করো। সেই value যেকোনো কিছু হতে পারে — number, string, object, এমনকি আরেকটা array।
+Concept first — accumulator
+
+reduce() একটা "accumulator" নিয়ে চলে। প্রতিটা element-এ accumulator update হয়। শেষে final accumulator return হয়। ভাবো একটা running total যেখানে প্রতিটা step-এ নতুন value যোগ হচ্ছে।
