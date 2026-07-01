@@ -17,3 +17,25 @@ const {name: userName, age: userAge} = user;
 const {name, salary = 5000, role = 'Junior'} = user;
 // Rename + Default at onece 
 const {city: location = "Unknown"} = user;
+
+
+// Nested Destructuring 
+
+const employee = {
+  name: "Karim",
+  address: {
+    city:    "Chittagong",
+    zip:     "4000",
+    country: "Bangladesh"
+  },
+  skills: {
+    primary:   "React",
+    secondary: "Node.js"
+  }
+};
+
+const {
+    name, 
+    address: {city, zip},
+    skills: {primary: mainSkill}
+} = employees;
